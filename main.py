@@ -7,7 +7,6 @@ app = FastAPI()
 
 MODEL_PATH = "yolov8n.pt"
 MODEL_URL = "https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt"
-"
 
 model = None  # model dimuat saat startup agar hemat RAM
 
