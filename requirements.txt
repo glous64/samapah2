@@ -1,6 +1,7 @@
+torch==2.9.0+cpu
+torchvision==0.24.0+cpu
+ultralytics==8.3.221
 fastapi
 uvicorn
-ultralytics
-opencv-python-headless
 supabase
-numpy
+opencv-python-headless
