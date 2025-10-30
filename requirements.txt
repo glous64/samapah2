@@ -1,4 +1,4 @@
-torch==2.2.0+cpu
+torch==2.0.1+cpu
 torchvision==0.24.0+cpu
 ultralytics==8.3.221
 fastapi
