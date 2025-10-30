@@ -1,17 +1,18 @@
 import os
 import requests
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from ultralytics import YOLO
+import shutil
 
 app = FastAPI()
 
 MODEL_PATH = "yolov8n.pt"
 MODEL_URL = "https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt"
-model = None  # model dimuat saat startup agar hemat RAM
+model = None
 
 
 def download_model():
-    """Download model jika belum ada"""
+    """Download YOLO model jika belum ada"""
     if not os.path.exists(MODEL_PATH):
         print("Downloading YOLO model...")
         response = requests.get(MODEL_URL, stream=True)
@@ -23,16 +24,17 @@ def download_model():
 
 @app.on_event("startup")
 def load_model():
-    """Inisialisasi model YOLO saat aplikasi mulai"""
+    """Load YOLO saat aplikasi mulai"""
     global model
     download_model()
     model = YOLO(MODEL_PATH)
-    print("YOLO model loaded and ready!")
+    print("✅ YOLO model loaded successfully!")
 
 
 @app.get("/")
 def root():
     return {"message": "YOLO API is running!"}
+
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
@@ -44,14 +46,13 @@ async def predict(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
 
     results = model(temp_path)
-    detections = results[0].boxes.data.tolist()
+    detections = results[0].boxes.xyxy.tolist()
 
     os.remove(temp_path)
     return {"detections": detections}
 
 
-# ==== Jalankan server (bagian penting untuk Railway) ====
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.environ.get("PORT", 8080))  # Railway akan isi PORT otomatis
+    port = int(os.environ.get("PORT", 8080))
     uvicorn.run("main:app", host="0.0.0.0", port=port)
