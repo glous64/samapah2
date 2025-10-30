@@ -27,7 +27,7 @@ def load_model():
     global model
     download_model()
     model = YOLO(MODEL_PATH)
-    print("YgitOLO model loaded and ready!")
+    print("YOLO model loaded and ready!")
 
 
 @app.get("/")
@@ -43,8 +43,9 @@ def predict():
     # Contoh dummy response (tanpa upload gambar)
     return {"status": "ok", "message": "Prediction endpoint is working!"}
 
-    if __name__ == "__main__":
-    import uvicorn
-    port = int(os.environ.get("PORT", 8080))  # wajib, Railway set ini otomatis
-    uvicorn.run("main:app", host="0.0.0.0", port=port)
 
+# ==== Jalankan server (bagian penting untuk Railway) ====
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8080))  # Railway akan isi PORT otomatis
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
