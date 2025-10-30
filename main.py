@@ -6,7 +6,7 @@ from ultralytics import YOLO
 app = FastAPI()
 
 MODEL_PATH = "yolov8n.pt"
-MODEL_URL = "MODEL_URL = "https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt"
+MODEL_URL = "https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt"
 "
 
 model = None  # model dimuat saat startup agar hemat RAM
@@ -29,7 +29,7 @@ def load_model():
     global model
     download_model()
     model = YOLO(MODEL_PATH)
-    print("YOLO model loaded and ready!")
+    print("YgitOLO model loaded and ready!")
 
 
 @app.get("/")
