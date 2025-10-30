@@ -34,14 +34,20 @@ def load_model():
 def root():
     return {"message": "YOLO API is running!"}
 
-
 @app.post("/predict")
-def predict():
-    """Contoh endpoint prediksi sederhana"""
+async def predict(file: UploadFile = File(...)):
     if model is None:
         return {"error": "Model not loaded."}
-    # Contoh dummy response (tanpa upload gambar)
-    return {"status": "ok", "message": "Prediction endpoint is working!"}
+
+    temp_path = f"temp_{file.filename}"
+    with open(temp_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    results = model(temp_path)
+    detections = results[0].boxes.data.tolist()
+
+    os.remove(temp_path)
+    return {"detections": detections}
 
 
 # ==== Jalankan server (bagian penting untuk Railway) ====
