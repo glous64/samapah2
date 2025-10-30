@@ -7,7 +7,6 @@ app = FastAPI()
 
 MODEL_PATH = "yolov8n.pt"
 MODEL_URL = "https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt"
-
 model = None  # model dimuat saat startup agar hemat RAM
 
 
@@ -43,3 +42,9 @@ def predict():
         return {"error": "Model not loaded."}
     # Contoh dummy response (tanpa upload gambar)
     return {"status": "ok", "message": "Prediction endpoint is working!"}
+
+    if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8080))  # wajib, Railway set ini otomatis
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
+
