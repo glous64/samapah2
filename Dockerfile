@@ -1,11 +1,7 @@
+# Gunakan Python versi 3.11 (lebih stabil)
 FROM python:3.11-slim
 
 WORKDIR /app
-
-# Install dependencies tanpa cache
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgl1 \
- && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 
