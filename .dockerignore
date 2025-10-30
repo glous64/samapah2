@@ -3,6 +3,8 @@ __pycache__/
 *.mp4
 *.jpg
 *.png
+*.zip
 .git
-node_modules/
-venv/
+.gitignore
+.env
+node_modules
